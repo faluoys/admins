@@ -3,6 +3,9 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 
+import '@/styles/tailwind.css'
+import '@/styles/index.css'
+
 // 5. 创建并挂载根实例
 const app = createApp(App)
 app.use(router)
