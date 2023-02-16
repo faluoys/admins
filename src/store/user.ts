@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {login} from '@/api/auth'
+import {login, user} from '@/api/auth'
 
 //定义state中的数据类型
 export interface IUserState {
@@ -12,7 +12,7 @@ export interface IUserState {
 
 export const useUserStore = defineStore({
     id: "app-user",
-    state: ():IUserState => ({
+    state: (): IUserState => ({
         token: localStorage.getItem("token") || "",// 在页面刷新时已经保留token
         username: "",
         avatar_url: "",
@@ -37,14 +37,14 @@ export const useUserStore = defineStore({
         setToken(token: string) {
             // sessionStorage.setItem('token',token);//一开心的窗口，token就会消失
             // token本地储存  localStorage本地存储
-            localStorage.setItem('token',token);
+            localStorage.setItem('token', token);
             this.token = token;
         },
         setAvatar(avatar_url: string) {
             this.avatar_url = avatar_url;
         },
         setUserInfo(info: object) {
-            this.info =info;
+            this.info = info;
         },
         setUserName(username: string) {
             this.username = username;
@@ -59,12 +59,26 @@ export const useUserStore = defineStore({
 
                 if (response.access_token) {
                     this.setToken(response.access_token);
+                    console.log(response)
                     // 登录之后，token已经拿到了，然后getUser获取调用,
-                    //return await this.getUser();
+                    return await this.getUser();
                 }
             } catch (error) {
                 // console.log(error)
             }
         },
+        //添加获取用户信息方法
+        async getUser() {
+            // await useUserStore.getUser()
+            try {
+                const response: any = await user();
+                this.setUserInfo(response)
+                this.setAvatar(response.avatar_url);
+                this.setUserName(response.name);
+                return response;
+            } catch (error) {
+                // console.log(error)
+            }
+        }
     }
 });
