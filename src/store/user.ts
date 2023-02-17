@@ -58,8 +58,8 @@ export const useUserStore = defineStore({
                 const response: any = await login(userInfo);
 
                 if (response.access_token) {
-                    this.setToken(response.access_token);
                     console.log(response)
+                    this.setToken(response.access_token);
                     // 登录之后，token已经拿到了，然后getUser获取调用,
                     return await this.getUser();
                 }

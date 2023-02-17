@@ -16,3 +16,12 @@ export function user() {
         method: 'get',
     })
 }
+
+
+//推出接口
+export function logout() {
+    return request({
+        url: '/api/auth/logout',
+        method: 'POST',
+    })
+}
