@@ -6,8 +6,7 @@ import request from "@/utils/request";
  * */
 // 轮播列表
 export function slides(params: any) {
-    return request(
-        {
+    return request({
             url: "/api/admin/slides",
             method: "GET",
             params,
@@ -17,8 +16,7 @@ export function slides(params: any) {
 
 // 轮播详情
 export function getSlidesInfo(slideid: any) {
-    return request(
-        {
+    return request({
             url: `/api/admin/slides/${slideid}`,
             method: "GET",
         }
@@ -27,8 +25,7 @@ export function getSlidesInfo(slideid: any) {
 
 // 添加轮播
 export function addSlide(data: any) {
-    return request(
-        {
+    return request({
             url: "/api/admin/slides",
             method: "POST",
             data,
@@ -38,8 +35,7 @@ export function addSlide(data: any) {
 
 // 修改轮播
 export function changeSlide(slideid: any, data: any) {
-    return request(
-        {
+    return request({
             url: `/api/admin/slides/${slideid}`,
             method: "PUT",
             data
@@ -49,8 +45,7 @@ export function changeSlide(slideid: any, data: any) {
 
 // 轮播删除
 export function delSlide(slideid: any) {
-    return request(
-        {
+    return request({
             url: `/api/admin/slides/${slideid}`,
             method: "DELETE",
         }
@@ -69,8 +64,7 @@ export function delSlide(slideid: any) {
 
 // 轮播禁用和启用
 export function getSlideLock(slideid: any) {
-    return request(
-        {
+    return request({
             url: `/api/admin/slides/${slideid}/status`,
             method: "PATCH",
         }

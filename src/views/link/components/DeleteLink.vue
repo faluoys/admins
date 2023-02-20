@@ -16,14 +16,14 @@
 
 <script setup>
 import {h, ref, defineProps, defineEmits, onMounted} from "vue";
-import {delSlide} from "@/api/slide";
+import {delLink} from "@/api/link";
 
 const props = defineProps({
     showModal: {
         type: Boolean,
         default: false
     },
-    slide_id: {
+    link_id: {
         type: Number,
         default: ""
     }
@@ -34,13 +34,13 @@ const cancelCallback = () => {
 const showForm = ref(false);
 const emit = defineEmits(["checkShowModal", "reloadTable"]);
 onMounted(() => {
-    if (props.slide_id)
+    if (props.link_id)
         showForm.value = true;
 });
 
 const submitCallback = () => {
     // console.log(11111111111111);
-    delSlide(props.slide_id).then(res => {
+    delLink(props.link_id).then(res => {
         window.$message.success("删除成功");
         emit("checkShowModal", false);
         emit("reloadTable");

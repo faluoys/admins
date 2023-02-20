@@ -6,7 +6,7 @@
     >
         <n-card
             style="width: 600px"
-            title="添加轮播图"
+            title="编辑友情链接"
             :bordered="false"
             size="huge"
             role="dialog"
@@ -16,32 +16,20 @@
                 <n-button type="error" @click="$emit('checkShowModal',false)">X</n-button>
             </template>
             <n-form ref="formRef" :model="model" :rules="rules">
-                <n-form-item path="title">
-                    <div class="title">标题：</div>
-                    <n-input v-model:value="model.title" placeholder="请输入标题"/>
+                <n-form-item path="name">
+                    <div class="title">名称：</div>
+                    <n-input v-model:value="model.name" placeholder="请输入"/>
                 </n-form-item>
                 <n-form-item path="url">
-                    <div class="title">跳转URL：</div>
+                    <div class="title">跳转链接URL：</div>
                     <n-input
                         v-model:value="model.url"
                         type="email"
-                        placeholder="请输入跳转URL"
+                        placeholder="跳转链接URL"
                     />
                 </n-form-item>
-                <n-form-item path="status">
-                    <div class="title" style="width: 28%">是否启用：</div>
-                    <n-radio-group v-model:value="model.status" name="status">
-                        <n-space>
-                            <n-radio :value="0">
-                                否
-                            </n-radio>
-                            <n-radio :value="1">
-                                是
-                            </n-radio>
-                        </n-space>
-                    </n-radio-group>
-                </n-form-item>
-                <n-form-item label="选择商品图" path="img">
+                <n-form-item path="img">
+                    <div class="title">选择商品图：</div>
                     <Upload @backKey="backKey"></Upload>
                 </n-form-item>
                 <n-row :gutter="[0, 24]">
@@ -50,10 +38,11 @@
                             <n-button
                                 round
                                 type="primary"
-                                @click="slideSubmit"
+                                @click="linkSubmit"
                             >
-                                添加
+                                提交
                             </n-button>
+
                         </div>
                     </n-col>
                 </n-row>
@@ -63,32 +52,54 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {addSlide} from "@/api/slide";
-import Upload from "@/components/Upload/index.vue";
+import {h, ref, defineProps, defineEmits, onMounted} from "vue";
+import {addLink, getLinksInfo, changeLink, delLink} from "@/api/link";
 
 const props = defineProps({
     showModal: {
         type: Boolean,
         default: false
+    },
+    link_id: {
+        type: Number,
+        default: ""
     }
 });
-const emit = defineEmits(["checkShowModal", "shuaxin"]);
-
 const model = ref({
-    title: null,
+    name: null,
     img: null,
     url: null,
     status: null
 });
+const showForm = ref(false);
+const emit = defineEmits(["checkShowModal", "shuaxin"]);
+onMounted(() => {
+    // Comment(123123);
+    if (props.link_id) {
+        getLinksInfo(props.link_id).then(res => {
+            model.value.name = res.name;
+            model.value.url = res.url;
+            model.value.img = res.img;
+            model.value.status = res.status;
+            showForm.value = true;
+            // console.log(res);
+        });
+    }
+});
+
 const rules = {
-    title: [
+    name: [
         {
             required: true,
             message: "请输入标题"
         }
     ],
-
+    img: [
+        {
+            required: true,
+            message: "请上传图片"
+        }
+    ],
     url: [
         {
             required: true,
@@ -103,26 +114,25 @@ const rules = {
     ],
 };
 const formRef = ref();
-const slideSubmit = (e) => {
+const linkSubmit = (e) => {
     e.preventDefault();
     formRef.value.validate(errors => {
         if (errors) {
             // console.log(errors);
         } else {
-            // 请求API 添加数据
-            addSlide(model.value).then(res => {
-                // console.log(res);
-                window.$message.success("添加成功");
+            changeLink(props.link_id, model.value).then(res => {
+                window.$message.success("修改成功");
                 emit("checkShowModal", false);
                 emit("reloadTable");
             });
-            // console.log(model.value);
         }
     });
 };
+
 const backKey = (key) => {
     model.value.img = key;
 };
+
 </script>
 
 <style>
@@ -134,8 +144,6 @@ const backKey = (key) => {
     width: 40%;
     margin-right: 5px;
     border: 1px solid #ccc;
-    /*font-weight: bold;*/
     background-color: #DEECF4;
 }
 </style>
-
