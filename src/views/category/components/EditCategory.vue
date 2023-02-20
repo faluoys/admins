@@ -6,7 +6,7 @@
     >
         <n-card
             style="width: 600px"
-            title="添加分类"
+            title="修改名称"
             :bordered="false"
             size="huge"
             role="dialog"
@@ -15,7 +15,7 @@
             <template #header-extra>
                 <n-button type="error" @click="$emit('checkShowModal',false)">X</n-button>
             </template>
-            <n-form ref="formRef" :model="model" :rules="rules">
+            <n-form v-if="showForm" ref="formRef" :model="model" :rules="rules">
                 <n-form-item style="width: 80%;" path="title">
                     <div class="title">分类名称：</div>
                     <n-input
@@ -30,67 +30,77 @@
                             <n-button
                                 round
                                 type="primary"
-                                @click="CategorySubmit"
+                                @click="categorySubmit"
                             >
-                                添加
+                                提交
                             </n-button>
                         </div>
                     </n-col>
                 </n-row>
             </n-form>
+            <n-skeleton v-else text :repeat="2"/>
         </n-card>
     </n-modal>
 </template>
 
 <script setup>
-import {ref, defineProps, defineEmits} from 'vue';
-import {addCategory} from '@/api/category';
+import {ref, defineProps, defineEmits, onMounted} from "vue";
+import {getCategoryInfo, updateCategory} from "@/api/category";
 
 const props = defineProps({
     showModal: {
         type: Boolean,
-        default: false,
+        default: false
+    },
+    category_id: {
+        type: Number,
+        default: ""
+    }
+});
+const model = ref({
+    pid: null,
+    name: null,
+});
+const showForm = ref(false);
+const emit = defineEmits(["checkShowModal", "shuaxin"]);
+onMounted(() => {
+    // console.log(123123);
+    if (props.category_id) {
+        getCategoryInfo(props.category_id).then(res => {
+            model.value.pid = res.pid;
+            model.value.name = res.name;
+            showForm.value = true;
+        });
     }
 });
 
-/**
- * 组件用的naive
- * 这个是里面的级联选择组件
- * */
-
-const emit = defineEmits(["checkShowModal"]);
-const model = ref({
-    name: null,
-});
 const rules = {
     name: [
         {
             required: true,
-            message: "请输入名称",
+            message: "请输入名称"
         }
-    ],
+    ]
 };
-
 const formRef = ref();
-const CategorySubmit = (e) => {
-    // e.preventDefault()
-    formRef.value.validate((errors) => {
-        // console.log(model.value)
+const categorySubmit = (e) => {
+    e.preventDefault();
+    formRef.value.validate(errors => {
         if (errors) {
-            console.log(errors)
+            // console.log(errors);
         } else {
-            console.log(model.value)
-            addCategory(model.value).then(res => {
-                console.log(res)
+            updateCategory(props.category_id, model.value).then(res => {
+                window.$message.success("修改成功");
                 emit("checkShowModal", false);
                 emit("reloadTable");
-            })
+            });
         }
-    })
-}
+    });
+};
+
 </script>
 
-<style scoped>
+<style>
 .title {
     font-size: 16px;
     height: 32px;
@@ -99,7 +109,6 @@ const CategorySubmit = (e) => {
     width: 30%;
     margin-right: 5px;
     border: 1px solid #ccc;
-
     background-color: #DEECF4;
 }
 </style>
