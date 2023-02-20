@@ -1,9 +1,9 @@
 import {RouteRecordRaw} from "vue-router";
 import Layout from "@/layout/index.vue";
+import {ChatbubbleEllipsesOutline} from "@vicons/ionicons5";
 import {renderIcon} from "@/utils";
-import {JournalOutline} from "@vicons/ionicons5";
 
-const routerName = "order";
+const routerName = "comment";
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -17,24 +17,24 @@ const routerName = "order";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/order",
+        path: "/comment",
         name: routerName,
         component: Layout,
-        redirect: "/order/list",
+        redirect: "/comment/list",
         meta: {
-            title: "订单管理",
-            icon: renderIcon(JournalOutline),
-            sort: 4,
+            title: "评论管理",
+            icon: renderIcon(ChatbubbleEllipsesOutline),
+            sort: 5,
         },
         children: [
             {
                 path: "list",
                 name: `${routerName}_list`,
                 meta: {
-                    title: "订单列表",
+                    title: "评论管理",
                     icon: "",
                 },
-                component: () => import("@/views/order/index.vue"),
+                component: () => import("@/views/comment/index.vue"),
             }
         ]
     }

@@ -1,9 +1,9 @@
 import {RouteRecordRaw} from "vue-router";
 import Layout from "@/layout/index.vue";
+import {Film} from "@vicons/ionicons5";
 import {renderIcon} from "@/utils";
-import {JournalOutline} from "@vicons/ionicons5";
 
-const routerName = "order";
+const routerName = "slide";
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -17,24 +17,24 @@ const routerName = "order";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/order",
+        path: "/slide",
         name: routerName,
         component: Layout,
-        redirect: "/order/list",
+        redirect: "/slide/list",
         meta: {
-            title: "订单管理",
-            icon: renderIcon(JournalOutline),
-            sort: 4,
+            title: "轮播管理",
+            icon: renderIcon(Film),
+            sort: 6,
         },
         children: [
             {
                 path: "list",
                 name: `${routerName}_list`,
                 meta: {
-                    title: "订单列表",
+                    title: "轮播管理",
                     icon: "",
                 },
-                component: () => import("@/views/order/index.vue"),
+                component: () => import("@/views/slide/index.vue"),
             }
         ]
     }

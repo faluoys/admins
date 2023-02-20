@@ -1,6 +1,6 @@
 <template>
     <div>
-        分类管理
+        商品管理
     </div>
 </template>
 

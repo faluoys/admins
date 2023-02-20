@@ -1,6 +1,6 @@
 <template>
     <div>
-        分类管理
+        友情链接
     </div>
 </template>
 

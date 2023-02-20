@@ -1,6 +1,6 @@
 <template>
     <div>
-        分类管理
+        轮播管理
     </div>
 </template>
 
