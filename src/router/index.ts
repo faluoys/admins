@@ -45,6 +45,8 @@ const router = createRouter({
 
 //配置前置守卫
 router.beforeEach((to, from, next) => {
+    document.title = (to?.meta?.title as string) || document.title;
+    // document.title = <string>to.meta.title
     if (to.name != 'login') {
         //如果不是登录页面，判断是否登录
         if (!localStorage.getItem('token')) {

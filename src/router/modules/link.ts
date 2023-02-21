@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: `${routerName}_list`,
                 meta: {
                     title: "友情链接",
-                    icon: "",
+                    icon: renderIcon(Link),
                 },
                 component: () => import("@/views/link/index.vue"),
             }

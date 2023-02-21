@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: `${routerName}_list`,
                 meta: {
                     title: "评论管理",
-                    icon: "",
+                    icon: renderIcon(ChatbubbleEllipsesOutline),
                 },
                 component: () => import("@/views/comment/index.vue"),
             }

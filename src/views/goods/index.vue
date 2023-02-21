@@ -128,7 +128,8 @@ const columns: any = [
                 inactiveColor: "#d9d9d9",
                 activeValue: 1,
                 inactiveValue: 0,
-                value: row.is_on == 0 ? false : true,
+                // value: row.is_on == 0 ? false : true,
+                value: row.is_on != 0,
                 onClick: () => {
                     // console.log(row.is_locked,'row.isload')
                     row.is_on == 0 ? row.is_on = 1 : row.is_on = 0;

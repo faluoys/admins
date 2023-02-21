@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: `${routerName}_list`,
                 meta: {
                     title: "轮播管理",
-                    icon: "",
+                    icon: renderIcon(Film),
                 },
                 component: () => import("@/views/slide/index.vue"),
             }

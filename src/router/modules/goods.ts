@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: `${routerName}_list`,
                 meta: {
                     title: "商品管理",
-                    icon: "",
+                    icon: renderIcon(BagHandle),
                 },
                 component: () => import("@/views/goods/index.vue"),
             }

@@ -70,8 +70,8 @@
     }
 
     const formInline = reactive({
-        username: 'super@a.com',
-        password: '123123',
+        username: '',
+        password: '',
     })
 
     //验证规则
