@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import Home from '@/views/Home.vue'
 import Login from '@/views/login/index.vue'
 
 import dashboard from "@/router/modules/dashboard";
@@ -21,7 +20,6 @@ const routes = [
     {
         path: '/',
         redirect: '/login',
-        // component: Home
     },
     {
         path: '/login',
